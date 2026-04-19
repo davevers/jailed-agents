@@ -123,6 +123,19 @@ Provide read-write or read-only access to directories.
 })
 ```
 
+### Set Environment Variables
+
+Set environment variables inside the jail.
+
+```nix
+(jailed-agents.lib.${system}.makeJailedPi {
+  env = {
+    EDITOR = "${pkgs.neovim}/bin/nvim";
+    VISUAL = "${pkgs.neovim}/bin/nvim";
+  };
+})
+```
+
 ### Create a Custom Agent
 
 If an agent is not pre-configured, you can easily create a jail for it using `makeJailedAgent`.
@@ -224,6 +237,7 @@ makeJailed<AgentName> {
   extraPkgs ? [],
   extraReadwriteDirs ? [],
   extraReadonlyDirs ? [],
+  env ? {},
   baseJailOptions ? commonJailOptions,
   basePackages ? commonPkgs
 }
@@ -239,6 +253,7 @@ makeJailedAgent {
   extraPkgs ? [],
   extraReadwriteDirs ? [],
   extraReadonlyDirs ? [],
+  env ? {},
   baseJailOptions ? commonJailOptions,
   basePackages ? commonPkgs
 }
@@ -250,6 +265,7 @@ makeJailedAgent {
 - **`extraPkgs`**: A list of additional packages to include in the sandbox.
 - **`extraReadwriteDirs`**: A list of directories to mount with read-write access.
 - **`extraReadonlyDirs`**: A list of directories to mount with read-only access.
+- **`env`**: An attribute set of environment variables to set inside the jail (e.g. `{ EDITOR = "nvim"; }`).
 - **`baseJailOptions`**: Overrides the default set of jail options.
 - **`basePackages`**: Overrides the default set of base packages.
 

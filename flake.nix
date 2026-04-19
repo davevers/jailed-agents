@@ -58,6 +58,7 @@
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
+            env ? { },
             baseJailOptions ? commonJailOptions,
             basePackages ? commonPkgs,
           }:
@@ -69,6 +70,7 @@
               ++ (map (p: readonly (noescape p)) extraReadonlyDirs)
               ++ [ (add-pkg-deps basePackages) ]
               ++ [ (add-pkg-deps extraPkgs) ]
+              ++ (pkgs.lib.mapAttrsToList set-env env)
             )
           );
 
@@ -79,6 +81,7 @@
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
+            env ? { },
             baseJailOptions ? commonJailOptions,
             basePackages ? commonPkgs,
           }:
@@ -91,6 +94,7 @@
               extraReadonlyDirs
               baseJailOptions
               basePackages
+              env
               ;
             configPaths = [
               "~/.config/crush"
@@ -105,6 +109,7 @@
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
+            env ? { },
             baseJailOptions ? commonJailOptions,
             basePackages ? commonPkgs,
           }:
@@ -117,6 +122,7 @@
               extraReadonlyDirs
               baseJailOptions
               basePackages
+              env
               ;
             configPaths = [
               "~/.config/opencode"
@@ -132,6 +138,7 @@
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
+            env ? { },
             baseJailOptions ? commonJailOptions,
             basePackages ? commonPkgs,
           }:
@@ -144,6 +151,7 @@
               extraReadonlyDirs
               baseJailOptions
               basePackages
+              env
               ;
             configPaths = [
               "~/.gemini"
@@ -157,6 +165,7 @@
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
+            env ? { },
             baseJailOptions ? commonJailOptions,
             basePackages ? commonPkgs,
           }:
@@ -169,6 +178,7 @@
               extraReadonlyDirs
               baseJailOptions
               basePackages
+              env
               ;
             configPaths = [
               "~/.pi"
@@ -182,6 +192,7 @@
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
+            env ? { },
             baseJailOptions ? commonJailOptions,
             basePackages ? commonPkgs,
           }:
@@ -194,6 +205,7 @@
               extraReadonlyDirs
               baseJailOptions
               basePackages
+              env
               ;
             configPaths = [
               "~/.claude"
