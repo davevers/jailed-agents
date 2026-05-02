@@ -82,6 +82,7 @@ Run `nix develop`, and the `jailed-opencode` command will be available in your s
 | `claude-code`| `makeJailedClaudeCode` | `jailed-claude-code`|
 | `crush`      | `makeJailedCrush`      | `jailed-crush`      |
 | `gemini-cli` | `makeJailedGeminiCli`  | `jailed-gemini-cli` |
+| `hermes-agent` | `makeJailedHermesAgent` | `jailed-hermes-agent` |
 | `opencode`   | `makeJailedOpencode`   | `jailed-opencode`   |
 | `pi`         | `makeJailedPi`         | `jailed-pi`         |
 

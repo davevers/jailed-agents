@@ -8,6 +8,7 @@ packages=(
   jailed-crush
   jailed-opencode
   jailed-gemini-cli
+  jailed-hermes-agent
   jailed-claude-code
   jailed-pi
 )
