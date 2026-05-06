@@ -21,6 +21,12 @@
             ANOTHER_VAR = "world";
           };
         };
+
+        tools-test = jailed-agents.lib.${system}.makeJailedAgent {
+          name = "tools-test";
+          pkg = pkgs.bashInteractive;
+          configPaths = [ ];
+        };
       };
     };
 }

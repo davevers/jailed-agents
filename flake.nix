@@ -41,6 +41,7 @@
           unzip
           gnutar
           diffutils
+          gnused
         ];
 
         commonJailOptions = with jail.combinators; [

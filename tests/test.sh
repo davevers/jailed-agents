@@ -22,7 +22,7 @@ for package in "${packages[@]}"; do
   echo "Building and testing $package..."
 
   if ! nix build ".#$package"; then
-    echo -e "\e[31mERROR: Failed to build $package.\e[0m"
+    echo "ERROR: Failed to build $package."
     ((fail++)) || true
     continue
   fi
@@ -30,10 +30,10 @@ for package in "${packages[@]}"; do
   echo "Build successful. Testing the binary..."
 
   if ./result/bin/"$package" --help; then
-    echo -e "\e[32mSUCCESS: $package built and tested successfully.\e[0m"
+    echo "SUCCESS: $package built and tested successfully."
     ((pass++)) || true
   else
-    echo -e "\e[31mERROR: Test for $package failed.\e[0m"
+    echo "ERROR: Test for $package failed."
     ((fail++)) || true
   fi
 done
@@ -43,25 +43,43 @@ echo "----------------------------------------"
 echo "Testing env parameter propagation..."
 
 if ! nix build "./tests"; then
-  echo -e "\e[31mERROR: Failed to build env-test.\e[0m"
+  echo "ERROR: Failed to build env-test."
   ((fail++)) || true
 else
   output=$(./result/bin/env-test -c 'echo "$MY_TEST_VAR $ANOTHER_VAR"')
   if [ "$output" = "hello world" ]; then
-    echo -e "\e[32mSUCCESS: env vars correctly set in jail\e[0m"
+    echo "SUCCESS: env vars correctly set in jail"
     ((pass++)) || true
   else
-    echo -e "\e[31mERROR: expected 'hello world', got '$output'\e[0m"
+    echo "ERROR: expected 'hello world', got '$output'"
     ((fail++)) || true
   fi
 fi
 
 # --- Summary ---
 echo "----------------------------------------"
-echo -e "Results: \e[32m$pass passed\e[0m, \e[31m$fail failed\e[0m"
+echo "Results: $pass passed, $fail failed"
 
 if [ "$fail" -ne 0 ]; then
   exit 1
 fi
 
-echo "All packages built and tested successfully!"
+# --- Test common tools availability ---
+echo "----------------------------------------"
+echo "Testing common tools availability..."
+
+if ! nix build "./tests#tools-test"; then
+  echo "ERROR: Failed to build tools-test."
+  ((fail++)) || true
+else
+  output=$(./result/bin/tools-test -c 'echo "hello world" | sed "s/world/sed/"')
+  if [ "$output" = "hello sed" ]; then
+    echo "SUCCESS: sed available and working in jail"
+    ((pass++)) || true
+  else
+    echo "ERROR: expected 'hello sed', got '$output'"
+    ((fail++)) || true
+  fi
+fi
+
+echo "----------------------------------------"
