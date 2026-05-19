@@ -48,7 +48,6 @@
           network
           time-zone
           no-new-session
-          mount-cwd
         ];
 
         makeJailedAgent =
@@ -67,8 +66,9 @@
             with jail.combinators;
             (
               baseJailOptions
-              ++ (map (p: readwrite (noescape p)) (configPaths ++ extraReadwriteDirs))
               ++ (map (p: readonly (noescape p)) extraReadonlyDirs)
+              ++ [ mount-cwd ]
+              ++ (map (p: readwrite (noescape p)) (configPaths ++ extraReadwriteDirs))
               ++ [ (add-pkg-deps basePackages) ]
               ++ [ (add-pkg-deps extraPkgs) ]
               ++ (pkgs.lib.mapAttrsToList set-env env)
