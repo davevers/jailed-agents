@@ -75,117 +75,6 @@
             )
           );
 
-        makeJailedCrush =
-          {
-            name ? "jailed-crush",
-            pkg ? llm-agents.packages.${system}.crush,
-            extraPkgs ? [ ],
-            extraReadwriteDirs ? [ ],
-            extraReadonlyDirs ? [ ],
-            env ? { },
-            baseJailOptions ? commonJailOptions,
-            basePackages ? commonPkgs,
-          }:
-          makeJailedAgent {
-            inherit
-              name
-              pkg
-              extraPkgs
-              extraReadwriteDirs
-              extraReadonlyDirs
-              baseJailOptions
-              basePackages
-              env
-              ;
-            configPaths = [
-              "~/.config/crush"
-              "~/.local/share/crush"
-            ];
-          };
-
-        makeJailedOpencode =
-          {
-            name ? "jailed-opencode",
-            pkg ? llm-agents.packages.${system}.opencode,
-            extraPkgs ? [ ],
-            extraReadwriteDirs ? [ ],
-            extraReadonlyDirs ? [ ],
-            env ? { },
-            baseJailOptions ? commonJailOptions,
-            basePackages ? commonPkgs,
-          }:
-          makeJailedAgent {
-            inherit
-              name
-              pkg
-              extraPkgs
-              extraReadwriteDirs
-              extraReadonlyDirs
-              baseJailOptions
-              basePackages
-              env
-              ;
-            configPaths = [
-              "~/.config/opencode"
-              "~/.local/share/opencode"
-              "~/.local/state/opencode"
-            ];
-          };
-
-        makeJailedGeminiCli =
-          {
-            name ? "jailed-gemini-cli",
-            pkg ? llm-agents.packages.${system}.gemini-cli,
-            extraPkgs ? [ ],
-            extraReadwriteDirs ? [ ],
-            extraReadonlyDirs ? [ ],
-            env ? { },
-            baseJailOptions ? commonJailOptions,
-            basePackages ? commonPkgs,
-          }:
-          makeJailedAgent {
-            inherit
-              name
-              pkg
-              extraPkgs
-              extraReadwriteDirs
-              extraReadonlyDirs
-              baseJailOptions
-              basePackages
-              env
-              ;
-            configPaths = [
-              "~/.gemini"
-            ];
-          };
-
-        makeJailedHermesAgent =
-          {
-            name ? "jailed-hermes-agent",
-            pkg ? llm-agents.packages.${system}.hermes-agent,
-            extraPkgs ? [ ],
-            extraReadwriteDirs ? [ ],
-            extraReadonlyDirs ? [ ],
-            env ? { },
-            baseJailOptions ? commonJailOptions,
-            basePackages ? commonPkgs,
-          }:
-          makeJailedAgent {
-            inherit
-              name
-              pkg
-              extraPkgs
-              extraReadwriteDirs
-              extraReadonlyDirs
-              baseJailOptions
-              basePackages
-              env
-              ;
-            configPaths = [
-              "~/.hermes"
-            ];
-          };
-
         makeJailedPi =
           {
             name ? "jailed-pi",
@@ -213,10 +102,10 @@
             ];
           };
 
-        makeJailedClaudeCode =
+        makeJailedCodex =
           {
-            name ? "jailed-claude-code",
-            pkg ? llm-agents.packages.${system}.claude-code,
+            name ? "jailed-codex",
+            pkg ? llm-agents.packages.${system}.codex,
             extraPkgs ? [ ],
             extraReadwriteDirs ? [ ],
             extraReadonlyDirs ? [ ],
@@ -236,23 +125,16 @@
               env
               ;
             configPaths = [
-              "~/.claude"
-              "~/.claude.json"
+              "~/.codex"
             ];
           };
-
       in
       {
         lib = {
           inherit commonJailOptions;
-
           inherit makeJailedAgent;
-          inherit makeJailedClaudeCode;
-          inherit makeJailedCrush;
-          inherit makeJailedGeminiCli;
-          inherit makeJailedHermesAgent;
-          inherit makeJailedOpencode;
           inherit makeJailedPi;
+          inherit makeJailedCodex;
 
           internals = {
             inherit jail;
@@ -260,12 +142,8 @@
         };
 
         packages = {
-          jailed-claude-code = makeJailedClaudeCode { };
-          jailed-crush = makeJailedCrush { };
-          jailed-gemini-cli = makeJailedGeminiCli { };
-          jailed-hermes-agent = makeJailedHermesAgent { };
-          jailed-opencode = makeJailedOpencode { };
           jailed-pi = makeJailedPi { };
+          jailed-codex = makeJailedCodex { };
         };
 
         devShells.default = pkgs.mkShell {
@@ -273,7 +151,7 @@
             pkgs.nixd
             pkgs.nixfmt
             pkgs.statix
-            (makeJailedOpencode {
+            (makeJailedCodex {
               extraPkgs = [
                 pkgs.nixd
                 pkgs.nixfmt
